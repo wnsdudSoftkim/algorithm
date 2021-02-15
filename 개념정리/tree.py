@@ -43,6 +43,11 @@ class NodeMgmt:
                 self.current_node = self.current_node.right
         #while문에서 return 값을 반환한게 없을때
         return False 
+        #이진 탐색 트리 삭제
+        # 매우 복잡함, 경우를 나누어서 이해하는 것이 좋음 
+        # 1. 맨 끝 노드
+        # 2. 자식 노드가 1개일떄
+        # 3. 자식 노드가 2개 일때
     def delete(self,value):
         searched = False
         self.current_node = self.head
@@ -62,15 +67,21 @@ class NodeMgmt:
         # 혹은 while문이 정상 작동 되지 않은경우
         if searched == False:
             return False
-        
+        ###이후부터 case들을 분리해서 코드 작성
+        #1번경우
+        if self.current_node.left ==None and self.current_node.right==None:
+            
+            del self.current_node
+        #2번경우
+        if self.current_node.left !=None and self.current_node.right==None:
+            if value<self.parent.value:
+                self.parent.left = self.current_node.left
+            else:
+                self.parent.right = self.current_node.right
+        elif self.current_node.left==None and self.current_node.right!=None:
+
 head = Node(1)
 BST = NodeMgmt(head)
 BST.insert(2)
-#이진 탐색 트리 삭제
-# 매우 복잡함, 경우를 나누어서 이해하는 것이 좋음 
-# 1. 맨 끝 노드
-# 2. 자식 노드가 1개일떄
-# 3. 자식 노드가 2개 일때
-#1
 
             
