@@ -13,6 +13,7 @@ def bubblesort(data):
     for index in range(len(data)-1):
         swap = False
         #-1을 하는 이유는 그 전까지 반복하려고
+        #뒤부터 정렬이 되니까 이렇게 반복해줌
         for index2 in range(len(data)-index-1):
             if data[index2]>data[index2+1]:
                 data[index2],data[index2+1]=data[index2+1],data[index2]
