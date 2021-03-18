@@ -20,4 +20,17 @@ public class 이진탐색 {
         }
     }
 }
+public static int binsearch(int[] a, int key, int left, int right) {
+    int mid = (left+right)/2;
+    if (a[mid] ==key) {
+        return mid;
+    }
+    else if (a[mid] <key){
+        return binsearch(a,key,left,mid-1);
+    }
+    else if (a[mid]>key){
+        return binsearch(a,key,mid+1,right);
+    }
+    else return -1;
+}
 //2.  Arrays.binarySearch 표준라이브러리 사용
