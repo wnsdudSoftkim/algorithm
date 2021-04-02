@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Assignment1",
+            "request": "launch",
+            "mainClass": "HUFS자료구조수업.Assignment.Assignment1",
+            "projectName": "algorithm_cfd78892"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "HUFS자료구조수업.Assignment.Main",
+            "projectName": "algorithm_cfd78892"
+        },
+        {
+            "type": "java",
+            "name": "Launch test",
+            "request": "launch",
+            "mainClass": "HUFS자료구조수업.Assignment.test",
+            "projectName": "algorithm_cfd78892"
+        },
+        {
+            "type": "java",
+            "name": "Launch Polynomial$Main",
+            "request": "launch",
+            "mainClass": "HUFS자료구조수업.Polynomial$Main",
+            "projectName": "algorithm_cfd78892"
+        },
+        {
+            "type": "java",
+            "name": "Launch 이진탐색",
+            "request": "launch",
+            "mainClass": "이진탐색",
+            "projectName": "algorithm_cfd78892"
+        }
+    ]
+}
