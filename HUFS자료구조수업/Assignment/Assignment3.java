@@ -24,6 +24,11 @@ class DoubleLinkedList {
 	 * 작성하여야 한다.
 	 */
 	
+	/**
+	 * @param str 삽입하고자 하는 데이터
+	 * 작성하여야 한다.
+	 */
+	public int count=0;
 	public void insert(String str) {
 		ListNode Node = new ListNode();
 		Node.data = str;
@@ -36,6 +41,31 @@ class DoubleLinkedList {
 			tail.rlink = Node;
 			tail = Node;
 			tail.rlink = null;
+		}
+		count++;
+		sort();
+	}
+
+	public void sort() {
+		String[] myArray = new String[count];
+		ListNode p = head;
+		for(int i=0; i<count; i++) {
+			if(p==null) break;
+			myArray[i] = p.data;
+			p=p.rlink;
+		}
+		for(int i=0; i<count-1; i++) {
+			if(((int)myArray[i].charAt(0)) < ((int)myArray[i+1].charAt(0))) {
+				String temp = myArray[i];
+				myArray[i] = myArray[i+1];
+				myArray[i+1] = temp;
+			}
+				
+		}
+		for(int i=0; i<count; i++) {
+			if(p==null) break;
+			p.data = myArray[i];
+			p=p.rlink;
 		}
 	}
 
@@ -63,10 +93,8 @@ class DoubleLinkedList {
 			p.llink.rlink = p.rlink;
 			p.rlink.llink = p.llink;
 		}
-
+		count--;
 		
-	
-
 	}
 
 	// 저장된 모든 데이터를 출력한다.
