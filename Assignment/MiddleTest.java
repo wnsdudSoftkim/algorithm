@@ -24,8 +24,9 @@ class Queue {
     //뒤에 요소 삽입
     public void enqueue(Object item) throws Exception {
         if(rear == n-1) throw new Exception();
-        q[rear] = item;
         rear +=1;
+        q[rear] = item;
+        
     }
     //맨 앞에 있는 요소가 빠져나감
     public Object dequeue() throws Exception {
