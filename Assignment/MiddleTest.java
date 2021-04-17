@@ -79,8 +79,8 @@ class ArrayQueue {
     }
     public void enqueue(Object x) {
         if(count ==queueSize) queueFull();
-        itemArray[rear] = x;
         rear = (rear+1) % queueSize;
+        itemArray[rear] = x;
         count ++;
     }
     //큐에서 원소를 삭제해서 반환
@@ -107,10 +107,7 @@ class ArrayQueue {
     }
 }
 //큐를 연결리스트로 표현
-class ListNode {
-    Object data;
-    ListNode link;
-}
+
 class ListQueue {
     private ListNode front;
     private ListNode rear;
@@ -166,6 +163,7 @@ class ArrayStack {
     }
     public void push(Object x) {
         if(top == stackSize-1) stackFull();
+        itemArray[++top] = x;
     }
     public void stackFull() {
         stackSize+=INCREMENT;
@@ -179,5 +177,96 @@ class ArrayStack {
     public Object pop() {
         if(isEmpty()) return null;
         else return itemArray[top--];
+    }
+}
+//연결 리스트를 이용한 스택 구현
+class ListStack {
+    class ListNode {
+        Object data;
+        ListNode link;
+    }
+    private ListNode top;
+    public boolean isEmpty() {
+        return (top==null);
+    }
+    public void push(Object x) {
+        ListNode newNode = new ListNode();
+        newNode.data = x;
+        newNode.link = top;
+        top = newNode;
+    }
+    public Object pop() {
+        if(isEmpty()) return null;
+        else {
+            Object item = top.data;
+            top = top.link;
+            return item;
+        }
+    }
+    public void delete() {
+        if(isEmpty()) return;
+        else top = top.link;
+
+    }
+    public Object peek() {
+        if(isEmpty()) return null;
+        else return top.data;
+    }
+}
+//리스트
+class ListNode {
+    String data;
+    ListNode link;
+    public ListNode() {
+        data =null;
+        link = null;
+    }
+    public ListNode(String val) {
+        data = val;
+        link = null;
+    }
+    public ListNode(String val, ListNode p) {
+        data = val;
+        link = p;
+    }
+}
+class LinkedList {
+    private ListNode head;
+    //리스트의 맨 앞에 원소 x르르 삽입
+    public void addFirstNode(String x) {
+        ListNode newNode = new ListNode();
+        newNode.data = x;
+        newNode.link = head;
+        head=newNode;
+    }
+    //p가 가르키는 노드 다음에 원소x 삽입
+    public void insertNode(ListNode p, String x) {
+        ListNode newNode = new ListNode();
+        newNode.data = x;
+        if(head==null) {
+            head = newNode;
+            newNode.link = null;
+        }//p가 널이면 ㅣㄹ스트의 첫번쨰노드
+        else if(p ==null) {
+            newNode.link = head;
+            head = newNode;
+        }else {
+            newNode.link = p.link;
+            p.link = newNode;
+        }
+    }
+    public void addLastNode(String x) {
+        ListNode newNode = new ListNode();
+        newNode.data = x;
+        newNode.link = null;
+        if(head==null) {
+            head = newNode;
+            return;
+        }
+        ListNode p = head;
+        while(p.link !=null) {
+            p = p.link;
+        }
+        p.link = newNode;
     }
 }
