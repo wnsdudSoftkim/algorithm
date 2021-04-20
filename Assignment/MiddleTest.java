@@ -53,6 +53,7 @@ class CircularQueue {
     private int front = 0;
     public void enqueue(Object item) throws Exception{
         //rear 값이 n-1 다음에 n이 되지않고 다시 0으로 됨
+        //처음에 1번 인덱스부터 시작한다.
         rear = (rear+1) %SIZE;
         if(front == rear) throw new Exception();
         q[rear] = item;
@@ -61,8 +62,9 @@ class CircularQueue {
     //실제로 front의 공간 하나는 공백으로 있어야 하나. 구현의 편의를 위해 이 공간을 희생.
     public Object dequeue() throws Exception{
         if(front ==rear) throw new Exception();
+        Object item = q[front];
         front = (front+1)%SIZE;
-        return q[front];
+        return item;
     }
 }
 //배열을 이용한 queue의 구현
@@ -88,7 +90,7 @@ class ArrayQueue {
         if(count ==queueSize) queueFull();
         rear = (rear+1) % queueSize;
         itemArray[rear] = x;
-        count ++;
+        count++;
     }
     //큐에서 원소를 삭제해서 반환
     public Object dequeue() {
@@ -111,6 +113,7 @@ class ArrayQueue {
         itemArray = tempArray; //배열 이름을 변경
         //그래서 다시 여기서 front를 0으로 초기화 해준다.
         front = 0;
+        //rear값도 카운트값으로 대체해준다.
         rear = count;
     }
 }
@@ -153,6 +156,7 @@ class ListQueue {
     
 }
 //스택
+//last in first out(LIFO)
 //배열을 이용한 스택 구현
 class ArrayStack {
     // 톱 원소를 가르키는 인덱스 변수
@@ -170,6 +174,7 @@ class ArrayStack {
         return (top==-1);
     }
     public void push(Object x) {
+        //49일때
         if(top == stackSize-1) stackFull();
         itemArray[++top] = x;
     }
@@ -186,6 +191,10 @@ class ArrayStack {
         if(isEmpty()) return null;
         else return itemArray[top--];
     }
+    public void delete() {
+        if(isEmpty()) return;
+        else top--;
+    }
 }
 //연결 리스트를 이용한 스택 구현
 class ListStack {
@@ -197,12 +206,19 @@ class ListStack {
     public boolean isEmpty() {
         return (top==null);
     }
+
+    //top이 게속 쌓이는 것.
     public void push(Object x) {
         ListNode newNode = new ListNode();
         newNode.data = x;
+        //기존에 있는 top을 가르킴
+        //즉 아래로 가는 방향
         newNode.link = top;
         top = newNode;
     }
+    //그림을 보면 스택의 윗부분부터 아래로 가는 방향
+    //그래서 top.link를 하면 앞으로 가는 것.
+    //헷갈리지 않기.
     public Object pop() {
         if(isEmpty()) return null;
         else {
@@ -221,7 +237,18 @@ class ListStack {
         else return top.data;
     }
 }
-//리스트
+//순차표현
+//장점
+//표현이 간단함
+//원소의 접근이 빠름
+//단점
+//원소의 삽입과 삭제가 어렵고 시간이 많이 걸림
+//저장공간의 낭비와 비효율성
+//연결리스트(비 순차 표현)
+//<원소,주소> 쌍으로 되어있는 저장구조를 노드라 한다.
+//순차 표현은 배열임 or (선형 리스트)
+//연결리스트 - 링크를 이용해 표현한 리스트
+//참조변수(reference variable)
 class ListNode {
     String data;
     ListNode link;
@@ -238,6 +265,7 @@ class ListNode {
         link = p;
     }
 }
+//단순연결리스트
 class LinkedList {
     private ListNode head;
     //리스트의 맨 앞에 원소 x르르 삽입
@@ -302,14 +330,70 @@ class LinkedList {
         }
     }
     public void insertLast(ListNode p) {
-        if(head ==null) {
-            head =p;
-            p.link = head;
+        insertFront(p);
+        head = p;
+    }
+    
+}
+//이중연결리스트
+class DoubleLinkedList {
+    Object data = null;
+    DoubleListNode rlink = null;
+    DoubleListNode llink = null;
+    DoubleListNode head = null;
+    DoubleListNode tail = null;
+    int length = 0;
+    public void delete(DoubleLinkedList p) {
+        if(p==null) throw new Exception();
+        if(p.llink!=null)  {
+            p.llink.rlink = p.rlink;
         }else {
-            p.link = head.link;
-            head.link = p;
-            head = p;
+            head = head.rlink;
         }
+        if(p.rlink!=null) {
+            p.rlink.llink = p.llink;
+        }else {
+            tail = tail.llink;
+        }
+        length--;
+    }
+    public void delete2(DoubleLinkedList p) {
+        if(p==null) throw new Exception();
+        if(length==1) {
+            head = tail = null;
+        }else if( p==head) {
+            head = head.rlink;
+            head.llink = null;
+        }else if(p==tail) {
+            tail = tail.llink;
+            tail.rlink = null;
+        }else {
+            p.llink.rlink = p.rlink;
+            p.rlink.llink = p.llink;
+        }
+        length--;
+    }
+    //노드 p뒤에 노드q를 삽입한다
+    public void insert(DoubleLinkedList p ,DoubleLinkedList q) {
+        if(q==null) throw new Exception();
+        q.llink = p;
+        //널일경우 제일 앞에 삽입
+        if(p==null) {
+            q.rlink = head;
+            if(head!=null) {
+                head.llink = q;
+            }
+            head=q;
+        }else {
+            q.rlink = p.rlink;
+            if(p.rlink!=null) {
+                p.rlink.link = q;
+            }else {
+                tail = q;
+            }
+            p.rlink  =q;
+        }
+        length++;
     }
 }
 //리스트를 이용한 다항식 덧셈
@@ -416,7 +500,7 @@ class ListNode2 implements Cloneable {
 //자바에서 일반리스트 구현
 class GenList{
     private ListNode head;
-    //리스트 head 다음에 새로운 ListNode를 삽입
+    //ListNode를 제일 맨 앞으로 만듬
     void insertData(Object x) {
         ListNode newNode = new ListNode();
         newNode.data = x;
@@ -441,8 +525,27 @@ class GenList{
 }
 //배열
 //순차 사상 - 배열의 논리적 순서와 메모리의 물리적 순서가 같도록 표현
-//순차 표현 - 순차 사상을 이용하여 데이타를 표현
+//순차 표현 - (순차 사상)을 이용하여 데이타를 표현
+//두 용어 헷갈리지 않기
 //희소행렬 과 희소행렬의 전치행렬
+//인덱스는 배열 내에서 원소의 상대적 위치를 나타낸다
+//배열으 ㄴ인덱스와 원소의 쌍의 집합으로 정의
+//배열은 일정 수 의 컴포넌트를 순차적으로 정렬시킨 것.
+// int[][] a = new int[3][4]
+//배열 복사
+//b = (int[])a.clone();
+class Array<E> {
+    private Object[] a;
+    public Array(int n) {
+        a = new Object[n];
+    }
+    public E retrieve(int i) {
+        return (E)a[i];
+    }
+    public void store(int i, E e) {
+        a[i] = e;
+    }
+}
 class SparseMatrix {
     int[][]m;
     //여기서 row는 열임
@@ -451,7 +554,6 @@ class SparseMatrix {
     public SparseMatrix(int row, int col, int no) {
         m = new int[no+1][3];
         m[0][0] = col;
-        
         m[0][1] = row;
         m[0][2] = no;
         //여긴 다른 코드
@@ -482,7 +584,7 @@ class SparseMatrix {
         // rowterm:     2   1   1   1   1   2
         // rowbegins:   0   2   3   4   5   6
         int[] rowTerms = new int[Col];
-        int[] rowBegins = new int[Row];
+        int[] rowBegins = new int[Col];
         // 6 7 8 로 들어감
         SparseMatrix b = new SparseMatrix(Col, Row, Num);
         if(Num > 0) {
@@ -556,6 +658,7 @@ class Triple {
 //알고리즘의 표현
 //ADL(Algorithm Descritpion Language)
 //알고리즘 기술을 위해 정의한 언어
+//의사코드(pseudo-code) : ADL과 약간의 자연어로 기술한 것
 //이원탐색
 class Search{
     //mid -1 +1 유의하기
@@ -573,11 +676,12 @@ class Search{
 //프로그램의 평가 기준
 //~~
 //프로그램 성능 평가
-//1 성능 분석
-// 성능 측정
+//1 성능 분석 - 프로그램을 실행하는데 필요한 시간과 공간의 추정 - 이것만다룸
+// 성능 측정 - 실제로 실행시간
 // 공간복잡도 = 프로그램을 실행시켜 완료하는데 소요되는 총 저장 공간 = 고정공간 + 가변 공간
 // 시간복잡도 = 프로그램을 실행시켜 완료하는데 걸리는 시간 = 컴파일시간 + 실행시간
 //성능은 프로그램 단계 실행 빈도수로 추정
+//Tp = Tc + Te  Tc는 컴파일 시간이고 Te는 실행 시간이다.
 // fib_i(n)
 // 1 if (n < 0)
 // 2    then stop; // error 발생
@@ -604,7 +708,7 @@ class Search{
 //7번 에서 왜 n번일까? i=1 i<=n 이여야 n번 아닌가?
 // 처음에 i=2 이부분에서 초기화 할때 수행되므로 n번 인 것! 
 // 연산 시간의 크기 순서
-// O(1) <O(logn) < O(n) < O(nlogn) < O(n^2
+// O(1) <O(logn) < O(n) < O(nlogn) < O(n^2)
 // ) < O(n^3
 // ) < O(2^n
 // ) < O(n!) 
@@ -624,4 +728,16 @@ class Search{
 // 효율성과 정확성
 // 요구분석 -> 시스템 명세 -> 설계 -> 구현 -> 테스트 -> 유지보수
 //객체지향(object-oriented design) 방법
-//동적 바인딩
+//다형성 : 동적 바인딩
+
+//스택은 지역변수 메소드 인자 return address
+//힙은 객체를 가지고 있음
+//스택은 프로그래머가 조작 x
+//힙은 프로그래머가 조작 0
+//string객체는 상수 객체이다 (바뀔수 없는)
+//상위 클래스의 추상 매소드를 구현하지 않으면 여전히 추상 클래스이다.
+//순환 (recursion)
+//배열(array)의 접근 방법은 직접 접근(direct access) 이다
+//인덱스만으로 원하는 원소에 직접 접근 - 사용자는 내부 구현을 알 필요 없음
+//이것을 정보 은닉이라고 함
+//배열은 순차 사상을 이용한 순차표현
