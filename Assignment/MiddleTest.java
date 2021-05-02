@@ -439,7 +439,7 @@ class Polynomial {
                           answer += "x";
                       }else {
                           answer += temp.coef +"x^" + temp.exp;
-                      }
+                      }`
                       temp = temp.link;
                       if(temp!=null){
                           answer +="+";
