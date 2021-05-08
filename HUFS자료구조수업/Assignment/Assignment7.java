@@ -1,5 +1,5 @@
-
 import java.io.*;
+import java.util.*;
 import java.util.Scanner;
 
 class BinaryTree {
@@ -22,25 +22,31 @@ class BinaryTree {
 class Stack {
 	
 	// 필요한 필드와 메소드를 추가하시오.
+	int top;
+	BinaryTree[] stack = new BinaryTree[10];
+	int size;
+	public Stack() {
+		top = -1;
+		size = 10;
+		stack = new BinaryTree[size];
+	}
 	
 	
 	
-		public void push(BinaryTree item) {
-			
-			
-		}
-	
-		public BinaryTree pop() {
-			
-			
-			return null;
-		}
-	
-		public boolean isEmpty() {
-			
-			
-			return true;
-		}
+	public void push(BinaryTree item) {
+		stack[++top] = item;
+	}
+
+	public BinaryTree pop() {
+		if(isEmpty()) return null;
+		else return stack[top--];
+	}
+
+	public boolean isEmpty() {
+
+
+		return top==-1;
+	}
 }
 
 // 추가적으로 필요한 클래스(예를 들어 큐)가 있으면 작성하시오.
@@ -57,23 +63,40 @@ class Main {
 
 	public static void inorder(BinaryTree node) {
 		if(node!=null) {
-			
+			if(node.left!=null) inorder(node.left);
+			System.out.print(node.data + "");
+			if(node.right!=null) inorder(node.right);
 		}
 		
 	}
 	
 	public static void preorder(BinaryTree node) {
-		
+		if(node!=null) {
+			System.out.print(node.data+"");
+			if(node.left!=null) preorder(node.left);
+			if(node.right!=null) preorder(node.right);
+		}
 		
 	}
 	
 	public static void postorder(BinaryTree node) {
-		
+		if(node!=null) {
+			if(node.left!=null) postorder(node.left);
+			if(node.right!=null) postorder(node.right);
+			System.out.print(node.data+"");
+		}
 		
 	}
 	
 	public static void levelorder(BinaryTree node) {
 		Queue<BinaryTree> queue = new LinkedList<>();
+		queue.add(node);
+		while(!queue.isEmpty()) {
+			queue.remove();
+			System.out.print(node.data+"");
+			if(node.left!=null) queue.add(node.left);
+			if(node.right !=null) queue.add(node.right);
+		}
 		
 	}
 	
