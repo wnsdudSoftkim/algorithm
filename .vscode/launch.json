@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch remain",
+            "request": "launch",
+            "mainClass": "remain",
+            "projectName": "algorithm_cfd78892"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "algorithm_cfd78892"
+        },
+        {
+            "type": "java",
+            "name": "Launch Calculate",
+            "request": "launch",
+            "mainClass": "Calculate",
+            "projectName": "algorithm_cfd78892"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"

@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 import java.util.Scanner;
 
@@ -54,7 +53,7 @@ class Stack {
 
 
 
-class Main {
+public class Assignment7 {
 	
 	
 	/***********************************
