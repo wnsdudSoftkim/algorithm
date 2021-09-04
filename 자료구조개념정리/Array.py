@@ -5,3 +5,8 @@
 data = [1,2,3,4,5]
 # 2차원 배열
 data2 = [[2,3,4],[1,2,3]]
+m=3
+n=4
+array = [[0]*m for _ in range(n)]
+print(array)
+
