@@ -1,8 +1,10 @@
-from itertools import combinations_with_replacement
 def solution(clothes):
-    answer = 0
-    for (p1) in zip(clothes):
-        answer+=p1
+    answer = {}
+    for i in clothes:
+        if i[1] in answer: answer[i[1]] += 1
+        else: answer[i[1]] = 1
 
-    return len(answer)
-solution([["yellowhat", "headgear"], ["bluesunglasses", "eyewear"], ["green_turban", "headgear"]])
+    cnt = 1
+    for i in answer.values():
+        cnt *= (i+1)
+    return cnt - 1
