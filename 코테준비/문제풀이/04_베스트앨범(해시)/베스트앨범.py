@@ -1,9 +1,8 @@
-from collections import Counter
+from collections import defaultdict
 def solution(genres, plays):
-    max_plays_index = plays.index(max(plays))
-    plays.pop(max_plays_index)
-    answer = []
-    answer.append(max_plays_index)
-    pop_index = genres.index(genres[max_plays_index]) # pop 인덱스를 찾는다
-    
-    return answer
+    final_dict = defaultdict(lambda:[])
+    for i, genre_play_tuple in enumerate(zip(genres, plays)):
+        #genre_play_tuple[0] 이건 classic 이랑 pop을 의미
+        final_dict[genre_play_tuple[0]].append((genre_play_tuple[1], i))
+    answer = genre_play_tuple
+    return final_dict
