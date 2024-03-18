@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
 public class 다익스트라 {
     /*
         다익스트라(Dijkstra) 알고리즘은 방향성을 가지는 그래프에서 최단거리를 구할 때 자주 쓰인다
-        코드로 구현할 때 유의하셔야 할 점이 몇 가지 있습니다.
+        코드로 구현할 때 유의하셔야 할 점이 몇 가지 있습니다. (****음의 가중치가 없어야함, 방향성 없어도 구할 수 있음 ********)
         우선 그래프를 표현할 때 보통은 2차원 배열로 선언을 많이 하는데, 2차원 배열보다는 List컬렉션을 통해서 구현하는 것을 추천드립니다.
         왜냐면 모든 노드가 간선으로 연결된 것이 아니라면 2차원 배열은 간선이 존재하지 않는 경우의 값도 저장하지만, 2차원 List로 표현을 하면 간선이 존재하는 노드들끼리의 연결만 표현할 수 있기 때문입니다.
         또한 위의 설명에서 보셨던 갱신된 노드들의 목록을 저장할 때는 우선순위 큐를 사용하셔야 합니다.
@@ -109,6 +109,74 @@ public class 다익스트라 {
                 }
             }
         }
+    }
+
+    static void test(int start) {
+        int[] testResult = new int[1000 + 1];
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
+        priorityQueue.offer(new Node(start, 0));
+        testResult[start] = 0;
+        while(!priorityQueue.isEmpty()) {
+            Node currentNode = priorityQueue.poll();
+            if (currentNode.distance > result[currentNode.index]) {
+                continue;
+            }
+            for (Node nextNode: graph.get(currentNode.index)) {
+                if (currentNode.distance + nextNode.distance < result[nextNode.index]) {
+                    result[nextNode.index] = currentNode.distance + nextNode.distance;
+                }
+                priorityQueue.offer(new Node(nextNode.index, result[nextNode.index]));
+            }
+        }
+
+    }
+
+
+    static void dijkstra2(int start) {
+        PriorityQueue<Node> q =  new PriorityQueue<>();
+        int[] dist = new int[1000 + 1]; // 최소 비용을 저장할 배열
+
+        // 초기화
+        q.offer(new Node(start, 0));
+        // 해당 노드를 선택한 것이나 마찬가지 이므로, dist[start] = 0으로 갱신.
+        dist[start] = 0;
+        while (!q.isEmpty()) {
+            Node curNode = q.poll();
+
+            // 목표 정점이 꺼내 졌다면, 해당 노드까지는 최솟값 갱신이 완료 되었다는 것이 확정이다(다익스트라 알고리즘).
+            // 따라서, 반복문을 종료해도 되지만, 해당 코드는 시작 정점에 대하여 모든 정점으로의 최단 경로를 구하는 것을 가정한다.
+            // 아래 주석된 코드는 목표 정점이 구해졌다면 빠르게 탈출할 수 있는 조건이다.
+//			if (curNode.idx == end) {
+//				System.out.println(dist[curNode.idx]);
+//				return;
+//			}
+
+            // 꺼낸 노드 = 현재 최소 비용을 갖는 노드.
+            // 즉, 해당 노드의 비용이 현재 dist배열에 기록된 내용보다 크다면 고려할 필요가 없으므로 스킵한다.
+            // 주의점 2 : 중복노드 방지1 : 만일, 이 코드를 생략한다면, 언급한 내용대로 이미 방문한 정점을 '중복하여 방문'하게 된다.
+            // 만일 그렇다면, 큐에 있는 모든 다음 노드에대하여 인접노드에 대한 탐색을 다시 진행하게 된다.
+            // 그래프 입력이 만일 완전 그래프의 형태로 주어진다면, 이 조건을 생략한 것 만으로 시간 복잡도가 E^2에 수렴할 가능성이 생긴다.
+            if (dist[curNode.index] < curNode.distance) {
+                continue;
+            }
+
+            // 선택된 노드의 모든 주변 노드를 고려한다.
+            for (int i = 0; i < graph.get(curNode.index).size(); i++) {
+                Node nxtNode = graph.get(curNode.index).get(i);
+                // 만일, 주변 노드까지의 현재 dist값(비용)과 현재 선택된 노드로부터 주변 노드로 가는 비용을 비교하고, 더 작은 값을 선택한다.
+                // 주의점 3 : 중복노드 방지 2 : 만일, 조건문 없이 조건문의 내용을 수행한다면 역시 중복 노드가 발생한다.
+                // 간선에 연결된 노드를 모두 넣어준다면 앞서 언급한 정점의 시간 복잡도 VlogV를 보장할 수 없다.
+                // 마찬가지로 E^2에 수렴할 가능성이 생긴다. 따라서 이 조건 안에서 로직을 진행해야만 한다.
+                if (dist[nxtNode.index] > curNode.distance + nxtNode.distance) {
+                    dist[nxtNode.index] = curNode.distance + nxtNode.distance;
+                    // 갱신된 경우에만 큐에 넣는다.
+                    q.offer(new Node(nxtNode.index, dist[nxtNode.index]));
+                }
+            }
+        }
+
+        // 결과 출력
+        System.out.println(Arrays.toString(dist));
     }
 
     static class Node implements Comparable<Node> {
