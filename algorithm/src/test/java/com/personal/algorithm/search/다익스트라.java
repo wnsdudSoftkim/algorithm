@@ -112,10 +112,9 @@ public class 다익스트라 {
     }
 
     static void test(int start) {
-        int[] testResult = new int[1000 + 1];
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
         priorityQueue.offer(new Node(start, 0));
-        testResult[start] = 0;
+        result[start] = 0;
         while(!priorityQueue.isEmpty()) {
             Node currentNode = priorityQueue.poll();
             if (currentNode.distance > result[currentNode.index]) {
