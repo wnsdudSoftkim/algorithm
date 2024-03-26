@@ -123,8 +123,8 @@ public class 다익스트라 {
             for (Node nextNode: graph.get(currentNode.index)) {
                 if (currentNode.distance + nextNode.distance < result[nextNode.index]) {
                     result[nextNode.index] = currentNode.distance + nextNode.distance;
+                    priorityQueue.offer(new Node(nextNode.index, result[nextNode.index]));
                 }
-                priorityQueue.offer(new Node(nextNode.index, result[nextNode.index]));
             }
         }
 
