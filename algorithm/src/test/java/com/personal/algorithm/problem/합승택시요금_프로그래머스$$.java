@@ -49,8 +49,8 @@ public class 합승택시요금_프로그래머스$$ {
             for (Node nextNode: graph.get(currentNode.index)) {
                 if(currentNode.distance + nextNode.distance < result[nextNode.index]) {
                     result[nextNode.index] = currentNode.distance + nextNode.distance;
+                    priorityQueue.offer(new Node(nextNode.index, result[nextNode.index]));
                 }
-                priorityQueue.offer(new Node(nextNode.index, result[nextNode.index]));
             }
         }
         return result;

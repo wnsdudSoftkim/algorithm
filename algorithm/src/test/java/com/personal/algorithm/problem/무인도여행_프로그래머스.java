@@ -1,30 +1,22 @@
-package com.personal.algorithm;
+package com.personal.algorithm.problem;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.retry.annotation.EnableRetry;
-import org.springframework.scheduling.annotation.EnableScheduling;
-
+import java.util.Arrays;
 import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * Created by (junyoungcross) flgkselql98@crossangle.io 3/17/24
+ * Created by (junyoungcross) flgkselql98@crossangle.io 3/31/24
  */
-@SpringBootApplication()
-@EnableScheduling
-@EnableRetry
-@EnableAspectJAutoProxy
-public class PersonalAlgorithmApplication {
-    public static void main(String[] args) {
-        solution();
-    }
+public class 무인도여행_프로그래머스 {
     static boolean[][] visited;
     static int[][] graph;
     static Map<Integer, Integer> result = new HashMap<>();
     static int X;
     static int Y;
+    /*
+        정확성: 48.0
+        합계: 48.0 / 100.0
+     */
 
     public static int[] solution() {
         String[] maps = {"X591X","X1X5X","X231X", "1XXX1"};
@@ -34,11 +26,11 @@ public class PersonalAlgorithmApplication {
         Y = maps[0].length() ;
         for (int i = 0; i< maps.length; i++) {
             for (int j=0; j<maps[0].length(); j++) {
-                String ch = String.valueOf(maps[i].charAt(j));
-                if(ch.equals("X")) {
+                char ch = maps[i].charAt(j);
+                if (ch == 'X') {
                     graph[i][j] = 0;
                 } else {
-                    graph[i][j] = Integer.parseInt(ch);
+                    graph[i][j] = Character.getNumericValue(ch);
                 }
             }
         }
@@ -57,7 +49,7 @@ public class PersonalAlgorithmApplication {
         return new int[]{-1};
     }
     private static void check(int row, int column, int index) {
-        if (visited[row][column]) {
+        if (visited[row][column] || graph[row][column] == 0) {
             return;
         }
         visited[row][column] = true;
